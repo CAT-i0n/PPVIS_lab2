@@ -1,0 +1,41 @@
+<AddRecordDialog>:
+    GridLayout:
+        size: root.size
+        pos: root.pos
+        cols: 2
+        Label:
+            size_hint: 0.5, 1
+            text: "Name"
+        TextInput:
+            id: Name
+        Label:
+            size_hint: 0.5, 1
+            text: "Year"
+        TextInput:
+            id: Year
+        Label:
+            size_hint: 0.5, 1
+            text: "Group"
+        TextInput:
+            id: Group
+        Label:
+            size_hint: 0.5, 1
+            text: "Total"
+        TextInput:
+            id: Total
+        Label:
+            size_hint: 0.5, 1
+            text: "Done"
+        TextInput:
+            id: Done
+        Label:
+            size_hint: 0.5, 1
+            text: "Language"
+        TextInput:
+            id: Language
+        Button:
+            text: "Cancel"
+            on_release: root.cancel()
+        Button:
+            text: "Add"
+            on_release: root.add(name=Name.text, year=Year.text, group=Group.text, total=Total.text, done=Done.text, language=Language.text)

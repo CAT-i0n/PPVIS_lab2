@@ -1,0 +1,49 @@
+<TableController@BoxLayout>:
+    Label:
+        text:"Page: "
+        size_hint: 0.07,1
+    Label:
+        id: currentPage
+        size_hint: 0.05,1
+    Label:
+        text:"/"
+        size_hint: 0.03,1
+    Label:
+        id: totalPage
+        size_hint: 0.05,1
+    Button:
+        background_color: 0.6, 0.8, 0.8, 1
+        id: superLeft
+        text: "<<"
+        size_hint: 0.15,1
+        on_press: root.superLeft()
+    Button:
+        background_color: 0.6, 0.8, 0.8, 1
+        id: left
+        text: "<"
+        size_hint: 0.15,1
+        on_press: root.left()
+    Button:
+        background_color: 0.6, 0.8, 0.8, 1
+        id: right
+        text: ">"
+        size_hint: 0.15,1
+        on_press: root.right()
+    Button:
+        background_color: 0.6, 0.8, 0.8, 1
+        id: superRight
+        text: ">>"
+        size_hint: 0.15,1
+        on_press: root.superRight()
+
+    TextInput:
+        id: rowsCol
+        text: "10"
+        size_hint: 0.1,1
+
+    Button:
+        background_color: 0.6, 0.8, 0.8, 1
+        id: update
+        text: "Apply"
+        size_hint: 0.1,1
+        on_press: root.textInput()

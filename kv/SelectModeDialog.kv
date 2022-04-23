@@ -1,0 +1,20 @@
+<SelectModeDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        Button:
+            text:"Name and group"
+            on_release: root.selectNameAndGroup()
+        Button:
+            text:"Year and language"
+            on_release: root.selectYearAndLanguage()
+        Button:
+            text:"Total and done works"
+            on_release: root.selectTotalAndDoneWorks()
+        Button:
+            text:"Uncomplited works"
+            on_release: root.selectUncomplitedWorks()
+        Button:
+            text:"Cancel"
+            on_release: root.cancel()

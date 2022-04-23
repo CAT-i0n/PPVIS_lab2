@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Table>
+    <Record>
+        <name>Лобанова Кристина Давидовна</name>
+        <year>1</year>
+        <group>21701</group>
+        <total>20</total>
+        <done>9</done>
+        <language>JavaScript</language>
+    </Record>
+    <Record>
+        <name>Тимофеева Зоя Марковна</name>
+        <year>4</year>
+        <group>21704</group>
+        <total>12</total>
+        <done>10</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Иванова Анна Александровна</name>
+        <year>4</year>
+        <group>21703</group>
+        <total>14</total>
+        <done>6</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Кочетова Ксения Кирилловна</name>
+        <year>4</year>
+        <group>21704</group>
+        <total>18</total>
+        <done>8</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Баранов Роман Владиславович</name>
+        <year>3</year>
+        <group>21703</group>
+        <total>13</total>
+        <done>1</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Сидорова Аделя Андреевна</name>
+        <year>3</year>
+        <group>21704</group>
+        <total>10</total>
+        <done>5</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Чернышева Анастасия Ивановна</name>
+        <year>1</year>
+        <group>21701</group>
+        <total>14</total>
+        <done>7</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Колесникова Серафима Тимуровна</name>
+        <year>4</year>
+        <group>21703</group>
+        <total>17</total>
+        <done>2</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Нечаев Роман Арсентьевич</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>20</total>
+        <done>0</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Савин Платон Иванович</name>
+        <year>2</year>
+        <group>21703</group>
+        <total>10</total>
+        <done>7</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Макаров Иван Денисович</name>
+        <year>3</year>
+        <group>21702</group>
+        <total>18</total>
+        <done>6</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Власов Марк Григорьевич</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>11</total>
+        <done>7</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Русаков Андрей Михайлович</name>
+        <year>1</year>
+        <group>21701</group>
+        <total>12</total>
+        <done>9</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Кулешова Анна Мироновна</name>
+        <year>2</year>
+        <group>21701</group>
+        <total>18</total>
+        <done>6</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Артемов Михаил Артёмович</name>
+        <year>2</year>
+        <group>21704</group>
+        <total>15</total>
+        <done>7</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Макарова Оливия Ильинична</name>
+        <year>3</year>
+        <group>21702</group>
+        <total>13</total>
+        <done>5</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Грибова София Павловна</name>
+        <year>4</year>
+        <group>21701</group>
+        <total>20</total>
+        <done>0</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Лебедев Егор Маркович</name>
+        <year>1</year>
+        <group>21704</group>
+        <total>19</total>
+        <done>8</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Муравьева Юлия Максимовна</name>
+        <year>2</year>
+        <group>21702</group>
+        <total>13</total>
+        <done>4</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Горбачев Тихон Михайлович</name>
+        <year>4</year>
+        <group>21704</group>
+        <total>12</total>
+        <done>9</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Ларионова Марьям Мироновна</name>
+        <year>2</year>
+        <group>21703</group>
+        <total>18</total>
+        <done>10</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Еремина Полина Тимофеевна</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>11</total>
+        <done>2</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Латышев Григорий Даниилович</name>
+        <year>2</year>
+        <group>21703</group>
+        <total>15</total>
+        <done>1</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Гончаров Святослав Ильич</name>
+        <year>1</year>
+        <group>21701</group>
+        <total>18</total>
+        <done>9</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Дементьев Николай Андреевич</name>
+        <year>2</year>
+        <group>21701</group>
+        <total>17</total>
+        <done>0</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Алексеев Василий Дмитриевич</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>10</total>
+        <done>1</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Леонтьева Полина Артёмовна</name>
+        <year>1</year>
+        <group>21703</group>
+        <total>17</total>
+        <done>8</done>
+        <language>JavaScript</language>
+    </Record>
+    <Record>
+        <name>Попов Михаил Русланович</name>
+        <year>1</year>
+        <group>21704</group>
+        <total>11</total>
+        <done>6</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Зубков Дмитрий Кириллович</name>
+        <year>4</year>
+        <group>21703</group>
+        <total>17</total>
+        <done>8</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Васильев Денис Романович</name>
+        <year>1</year>
+        <group>21703</group>
+        <total>12</total>
+        <done>4</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Родин Виктор Макарович</name>
+        <year>3</year>
+        <group>21704</group>
+        <total>13</total>
+        <done>4</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Сидоров Иван Давидович</name>
+        <year>4</year>
+        <group>21704</group>
+        <total>19</total>
+        <done>1</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Бирюкова Алия Руслановна</name>
+        <year>1</year>
+        <group>21701</group>
+        <total>15</total>
+        <done>4</done>
+        <language>JavaScript</language>
+    </Record>
+    <Record>
+        <name>Алексеев Дмитрий Макарович</name>
+        <year>3</year>
+        <group>21703</group>
+        <total>20</total>
+        <done>4</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Киселев Фёдор Романович</name>
+        <year>1</year>
+        <group>21704</group>
+        <total>16</total>
+        <done>0</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Горюнов Артур Данилович</name>
+        <year>2</year>
+        <group>21704</group>
+        <total>19</total>
+        <done>4</done>
+        <language>JavaScript</language>
+    </Record>
+    <Record>
+        <name>Михеев Всеволод Никитич</name>
+        <year>4</year>
+        <group>21704</group>
+        <total>13</total>
+        <done>4</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Лапшин Андрей Матвеевич</name>
+        <year>1</year>
+        <group>21704</group>
+        <total>14</total>
+        <done>4</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Гусева Виктория Фёдоровна</name>
+        <year>4</year>
+        <group>21701</group>
+        <total>11</total>
+        <done>3</done>
+        <language>Python</language>
+    </Record>
+    <Record>
+        <name>Андреева Анастасия Дмитриевна</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>18</total>
+        <done>8</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Андреев Лев Владимирович</name>
+        <year>1</year>
+        <group>21702</group>
+        <total>18</total>
+        <done>2</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Покровская Виктория Максимовна</name>
+        <year>3</year>
+        <group>21701</group>
+        <total>13</total>
+        <done>7</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Герасимова Малика Арсентьевна</name>
+        <year>3</year>
+        <group>21702</group>
+        <total>19</total>
+        <done>4</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Денисова Милана Ильинична</name>
+        <year>4</year>
+        <group>21702</group>
+        <total>10</total>
+        <done>4</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Костина Вероника Романовна</name>
+        <year>2</year>
+        <group>21702</group>
+        <total>20</total>
+        <done>8</done>
+        <language>C++</language>
+    </Record>
+    <Record>
+        <name>Евдокимова Ника Евгеньевна</name>
+        <year>4</year>
+        <group>21701</group>
+        <total>19</total>
+        <done>6</done>
+        <language>Java</language>
+    </Record>
+    <Record>
+        <name>Грачева Елизавета Яновна</name>
+        <year>2</year>
+        <group>21701</group>
+        <total>19</total>
+        <done>9</done>
+        <language>C</language>
+    </Record>
+    <Record>
+        <name>Попова Дарина Никитична</name>
+        <year>2</year>
+        <group>21703</group>
+        <total>15</total>
+        <done>9</done>
+        <language>C#</language>
+    </Record>
+    <Record>
+        <name>Николаева Амина Богдановна</name>
+        <year>2</year>
+        <group>21702</group>
+        <total>19</total>
+        <done>3</done>
+        <language>JavaScript</language>
+    </Record>
+    <Record>
+        <name>Гурова Ульяна Петровна</name>
+        <year>1</year>
+        <group>21704</group>
+        <total>16</total>
+        <done>9</done>
+        <language>C</language>
+    </Record>
+</Table>

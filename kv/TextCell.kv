@@ -1,0 +1,16 @@
+<TextCell@BoxLayout>:
+    canvas.before:
+        Color:
+            rgba: 0,0.04,1,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    RecycleView:
+        Label:
+            id: label
+            color: 0,0,0,1
+            padding: 5, 5
+            text: ""
+            size_hint_y: None
+            text_size: (self.width, None)
+            height: self.texture_size[1]
