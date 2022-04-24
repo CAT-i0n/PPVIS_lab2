@@ -25,14 +25,6 @@
         <language>JavaScript</language>
     </Record>
     <Record>
-        <name>Егоров Артём Даниилович</name>
-        <year>1</year>
-        <group>21701</group>
-        <total>20</total>
-        <done>3</done>
-        <language>Java</language>
-    </Record>
-    <Record>
         <name>Позднякова Амина Романовна</name>
         <year>4</year>
         <group>21703</group>
@@ -57,14 +49,6 @@
         <language>Python</language>
     </Record>
     <Record>
-        <name>Акимова Диана Артуровна</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>11</total>
-        <done>7</done>
-        <language>C++</language>
-    </Record>
-    <Record>
         <name>Петров Иван Леонович</name>
         <year>2</year>
         <group>21704</group>
@@ -79,14 +63,6 @@
         <total>19</total>
         <done>8</done>
         <language>Java</language>
-    </Record>
-    <Record>
-        <name>Уткина София Михайловна</name>
-        <year>2</year>
-        <group>21701</group>
-        <total>13</total>
-        <done>1</done>
-        <language>C#</language>
     </Record>
     <Record>
         <name>Артемов Виктор Вадимович</name>
@@ -145,14 +121,6 @@
         <language>Python</language>
     </Record>
     <Record>
-        <name>Дроздов Владислав Дмитриевич</name>
-        <year>4</year>
-        <group>21701</group>
-        <total>15</total>
-        <done>10</done>
-        <language>C++</language>
-    </Record>
-    <Record>
         <name>Петров Павел Сергеевич</name>
         <year>4</year>
         <group>21702</group>
@@ -191,22 +159,6 @@
         <total>14</total>
         <done>10</done>
         <language>Java</language>
-    </Record>
-    <Record>
-        <name>Иванова Яна Дмитриевна</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>17</total>
-        <done>3</done>
-        <language>C#</language>
-    </Record>
-    <Record>
-        <name>Щербаков Роман Николаевич</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>18</total>
-        <done>5</done>
-        <language>Python</language>
     </Record>
     <Record>
         <name>Михеев Дмитрий Фёдорович</name>
@@ -257,22 +209,6 @@
         <language>C</language>
     </Record>
     <Record>
-        <name>Майорова Дарья Олеговна</name>
-        <year>4</year>
-        <group>21701</group>
-        <total>13</total>
-        <done>2</done>
-        <language>C++</language>
-    </Record>
-    <Record>
-        <name>Исаева Анастасия Григорьевна</name>
-        <year>4</year>
-        <group>21701</group>
-        <total>19</total>
-        <done>6</done>
-        <language>C++</language>
-    </Record>
-    <Record>
         <name>Семенова Анастасия Кирилловна</name>
         <year>2</year>
         <group>21702</group>
@@ -281,27 +217,11 @@
         <language>JavaScript</language>
     </Record>
     <Record>
-        <name>Горбунова Оливия Ивановна</name>
-        <year>1</year>
-        <group>21701</group>
-        <total>14</total>
-        <done>2</done>
-        <language>C</language>
-    </Record>
-    <Record>
         <name>Антонова Екатерина Арсентьевна</name>
         <year>2</year>
         <group>21703</group>
         <total>19</total>
         <done>1</done>
-        <language>Java</language>
-    </Record>
-    <Record>
-        <name>Овсянникова Екатерина Игоревна</name>
-        <year>4</year>
-        <group>21701</group>
-        <total>17</total>
-        <done>3</done>
         <language>Java</language>
     </Record>
     <Record>
@@ -345,36 +265,12 @@
         <language>C++</language>
     </Record>
     <Record>
-        <name>Малышев Родион Владимирович</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>17</total>
-        <done>1</done>
-        <language>Python</language>
-    </Record>
-    <Record>
         <name>Колесова Александра Даниэльевна</name>
         <year>4</year>
         <group>21703</group>
         <total>19</total>
         <done>7</done>
         <language>JavaScript</language>
-    </Record>
-    <Record>
-        <name>Волков Кирилл Владимирович</name>
-        <year>2</year>
-        <group>21701</group>
-        <total>18</total>
-        <done>6</done>
-        <language>C#</language>
-    </Record>
-    <Record>
-        <name>Суворов Александр Михайлович</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>15</total>
-        <done>10</done>
-        <language>C++</language>
     </Record>
     <Record>
         <name>Гришина Мира Ильинична</name>
@@ -393,11 +289,11 @@
         <language>C</language>
     </Record>
     <Record>
-        <name>Кондратьев Марк Николаевич</name>
-        <year>3</year>
-        <group>21701</group>
-        <total>12</total>
-        <done>7</done>
-        <language>C++</language>
+        <name>1</name>
+        <year>11</year>
+        <group>11</group>
+        <total>11</total>
+        <done>11</done>
+        <language>11</language>
     </Record>
 </Table>
