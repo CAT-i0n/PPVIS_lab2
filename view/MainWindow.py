@@ -12,12 +12,12 @@ Builder.load_file("kv/ControllerPanel.kv")
 
 
 class ControllerPanel(BoxLayout):
-    def __init__(self, myWindow, **kwargs):
+    def __init__(self, ScreenWindow, **kwargs):
         super().__init__(**kwargs)
         self.isOpened = False
         self.controller = Controller()
         self.popup = Popup()
-        self.myWindow = myWindow
+        self.ScreenWindow = ScreenWindow
 
     def openDialog(self):
         content = OpenDialog(open=self.open, cancel=self.dismissPopup)
@@ -45,7 +45,7 @@ class ControllerPanel(BoxLayout):
 
     def open(self, filename):
         try:
-            self.myWindow.update(self.controller.openFile(filename[0]))
+            self.ScreenWindow.update(self.controller.openFile(filename[0]))
         except:
             pass
         self.dismissPopup()
@@ -58,7 +58,7 @@ class ControllerPanel(BoxLayout):
     def addRecord(self, **kwargs):
         if not self.isOpened: return
         self.controller.addRecord(kwargs)
-        self.myWindow.update(self.controller.getData())
+        self.ScreenWindow.update(self.controller.getData())
         self.dismissPopup()
 
     def search(self, searchData: dict) -> dict:
@@ -88,7 +88,7 @@ class ControllerPanel(BoxLayout):
                 return self.controller.deleteByUncomplitedWorks(deleteData["uncomplited"])
         except:
             return 0
-        self.myWindow.update(self.controller.getData())
+        self.ScreenWindow.update(self.controller.getData())
 
     def dismissPopup(self, *args):
         self.popup.dismiss()
@@ -106,9 +106,9 @@ class MainWindow(BoxLayout):
 
 
 
-        #load prepared data
-        self.update(self.controller.controller.openFile(filepath=r"C:\a\ППВИС\PPvIS_Labs\data\2.xml"))
-        self.controller.isOpened = True
+        '''#load prepared data
+        self.update(self.controller.controller.openFile(filepath=r"C:\a\ППВИС\PPvIS_Lab2\data\2.xml"))
+        self.controller.isOpened = True'''
 
     def update(self, data: list):
         self.table.update(data)

@@ -2,7 +2,7 @@ from kivy.lang.builder import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
-Builder.load_file("kv/MyLabel.kv")
+Builder.load_file("kv/TableLabel.kv")
 Builder.load_file("kv/TextCell.kv")
 Builder.load_file("kv/Table.kv")
 Builder.load_file("kv/TableController.kv")
