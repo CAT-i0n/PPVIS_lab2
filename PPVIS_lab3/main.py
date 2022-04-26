@@ -5,7 +5,7 @@ from player import Player
 class Astoroids:
     def __init__(self, width, height, fps):
         self.width = width
-        self.height = height
+        self.height = height         
         self.fps = fps
 
     def run(self):
@@ -15,9 +15,9 @@ class Astoroids:
         pygame.display.set_caption("ASSteroids")
         clock = pygame.time.Clock()
 
-        player = Player(self.height, self.width)
+        player = Player(self.width, self.height)
 
-        BackGround=Background("images/back.png")
+        Back = Background("images/back.png", self.height, self.width)
         running = True
         while running:
             clock.tick(self.fps)
@@ -26,7 +26,7 @@ class Astoroids:
                     running = False
             player.update()
             screen.fill((0, 0, 0))
-            screen.blit(BackGround.image, BackGround.rect)
+            screen.blit(Back.image, Back.rect)
             player.group.draw(screen)
             pygame.display.flip()
 
@@ -34,4 +34,4 @@ class Astoroids:
 
 
 if __name__ == "__main__":
-    Astoroids(1024, 600, 60).run()
+    Astoroids(1360, 765, 60).run()
