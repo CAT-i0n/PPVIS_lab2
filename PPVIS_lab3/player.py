@@ -1,26 +1,22 @@
 import pygame
 from math import pi, cos, sin
 from time import time
-
+import random
 class Shot(pygame.sprite.Sprite):
     def __init__(self, ship):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 10
-        self.image = pygame.transform.rotate(pygame.image.load("images/shot.png"), ship.rot)
+        self.image = pygame.transform.rotate(pygame.image.load("images/shot2.png"), ship.rot)
         self.image.set_colorkey((0,0,0))
-        self.ship = ship
-        self.rot = self.ship.rot
+        self.rot = ship.rot % 360
         self.rect = self.image.get_rect()
-        self.rect.center = (self.ship.rect.center[0] + 40*cos((self.rot % 360) * pi / 180 + pi / 2), 
-                            self.ship.rect.center[1] - 40*sin((self.rot % 360) * pi / 180 + pi / 2))
+        self.rect.center = (ship.rect.center[0] - 40 * sin((self.rot) * pi / 180) - ship.side * 30 * cos((self.rot) * pi / 180), 
+                            ship.rect.center[1] - 40 * cos((self.rot) * pi / 180) + ship.side * 30 * sin((self.rot) * pi / 180))
 
-                        
-        
 
     def update(self):
         self.rect.x += self.speed * cos((self.rot % 360) * pi / 180 + pi / 2)
         self.rect.y -= self.speed * sin((self.rot % 360) * pi / 180 + pi / 2)
-        
 
 
         
@@ -66,7 +62,9 @@ class Ship(pygame.sprite.Sprite):
         self.shots = []
         self.is_move = False
         self.last_shot = time()
-        self.shot_delay = 0.3
+        self.shot_delay = 0
+        self.side = 1
+        self.speed_limit = 10
 
     def update(self):
         keys=pygame.key.get_pressed()
@@ -75,7 +73,7 @@ class Ship(pygame.sprite.Sprite):
             self.rot += 5
         if keys[pygame.K_d]:  #right
             self.rot -= 5
-        if keys[pygame.K_s]:  #down
+        if keys[pygame.K_SPACE]:  #stop
             if abs(self.speed_y) < 1:
                 self.speed_y = 0
             else:
@@ -87,11 +85,18 @@ class Ship(pygame.sprite.Sprite):
         if keys[pygame.K_w]:  #up
             self.speed_x += cos((self.rot % 360) * pi / 180 + pi / 2) / 10
             self.speed_y += -1*sin((self.rot % 360) * pi / 180 + pi / 2) / 10
+            if (self.speed_x ** 2 + self.speed_y ** 2) ** 0.5 > self.speed_limit:
+                self.speed_x *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
+                self.speed_y *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
             self.is_move = True
         if keys[pygame.K_RETURN]:
             if time() - self.last_shot > self.shot_delay:
                 self.shots.append(Shot(self))
                 self.last_shot = time()
+                if self.side == 1:
+                    self.side = -1
+                elif self.side == -1:
+                    self.side = 1
 
         if self.rect.center[0] > self.width:
             self.rect.center = (0, self.rect.center[1])
@@ -126,6 +131,13 @@ class Player:
             self.group.add(self.ship)
         else:
             self.group.add(self.ship)
+        print(len(self.ship.shots))
         for shot in self.ship.shots:
+            if shot.rect.x > self.ship.width or shot.rect.x < 0:
+                self.ship.shots.remove(shot)
+                continue
+            if shot.rect.y > self.ship.height or shot.rect.y < 0:
+                self.ship.shots.remove(shot)
+                continue
             self.group.add(shot)
         self.group.update()

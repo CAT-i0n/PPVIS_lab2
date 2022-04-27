@@ -1,8 +1,7 @@
 import pygame
 from background import Background
 from player import Player
-
-class Astoroids:
+class Asteroids:
     def __init__(self, width, height, fps):
         self.width = width
         self.height = height         
@@ -18,6 +17,7 @@ class Astoroids:
         player = Player(self.width, self.height)
 
         Back = Background("images/back.png", self.height, self.width)
+
         running = True
         while running:
             clock.tick(self.fps)
@@ -34,4 +34,4 @@ class Astoroids:
 
 
 if __name__ == "__main__":
-    Astoroids(1360, 765, 60).run()
+    Asteroids(1360, 765, 60).run()
