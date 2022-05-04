@@ -2,29 +2,27 @@ import pygame
 from math import pi, cos, sin
 from time import time
 import random
+
+
 class Shot(pygame.sprite.Sprite):
     def __init__(self, ship):
-        pygame.sprite.Sprite.__init__(self)
-        self.speed = 10
-        self.image = pygame.transform.rotate(pygame.image.load("images/shot2.png"), ship.rot)
+        super().__init__()
+        self.speed = ship.speed_limit * 1.2
+        self.image = pygame.transform.rotate(pygame.image.load("images/shot.png"), ship.rot)
         self.image.set_colorkey((0,0,0))
         self.rot = ship.rot % 360
         self.rect = self.image.get_rect()
         self.rect.center = (ship.rect.center[0] - 40 * sin((self.rot) * pi / 180) - ship.side * 30 * cos((self.rot) * pi / 180), 
                             ship.rect.center[1] - 40 * cos((self.rot) * pi / 180) + ship.side * 30 * sin((self.rot) * pi / 180))
 
-
     def update(self):
         self.rect.x += self.speed * cos((self.rot % 360) * pi / 180 + pi / 2)
         self.rect.y -= self.speed * sin((self.rot % 360) * pi / 180 + pi / 2)
 
-
-        
-
 class Flame(pygame.sprite.Sprite):
     def __init__(self, ship):
         self.ship = ship
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.images = [pygame.transform.scale(pygame.image.load("images/Flame_01.png").convert_alpha(), (250,250)), 
                        pygame.transform.scale(pygame.image.load("images/Flame_02.png").convert_alpha(), (250,250))]
         self.image = self.images[0]
@@ -49,7 +47,7 @@ class Flame(pygame.sprite.Sprite):
 
 class Ship(pygame.sprite.Sprite):
     def __init__(self, width, height):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.width = width
         self.height = height
         self.image_orig = pygame.image.load("images/ship.png").convert_alpha()
@@ -62,7 +60,7 @@ class Ship(pygame.sprite.Sprite):
         self.shots = []
         self.is_move = False
         self.last_shot = time()
-        self.shot_delay = 0
+        self.shot_delay = 0.2
         self.side = 1
         self.speed_limit = 10
 
@@ -73,6 +71,13 @@ class Ship(pygame.sprite.Sprite):
             self.rot += 5
         if keys[pygame.K_d]:  #right
             self.rot -= 5
+        if keys[pygame.K_w]:  #up
+            self.speed_x += cos((self.rot % 360) * pi / 180 + pi / 2) / 10
+            self.speed_y += -1*sin((self.rot % 360) * pi / 180 + pi / 2) / 10
+            if (self.speed_x ** 2 + self.speed_y ** 2) ** 0.5 > self.speed_limit:
+                self.speed_x *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
+                self.speed_y *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
+            self.is_move = True
         if keys[pygame.K_SPACE]:  #stop
             if abs(self.speed_y) < 1:
                 self.speed_y = 0
@@ -81,14 +86,7 @@ class Ship(pygame.sprite.Sprite):
             if abs(self.speed_x) < 1:
                 self.speed_x = 0
             else:                                
-                self.speed_x *= 0.95  
-        if keys[pygame.K_w]:  #up
-            self.speed_x += cos((self.rot % 360) * pi / 180 + pi / 2) / 10
-            self.speed_y += -1*sin((self.rot % 360) * pi / 180 + pi / 2) / 10
-            if (self.speed_x ** 2 + self.speed_y ** 2) ** 0.5 > self.speed_limit:
-                self.speed_x *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
-                self.speed_y *= self.speed_limit / (self.speed_x ** 2 + self.speed_y ** 2)**0.5
-            self.is_move = True
+                self.speed_x *= 0.95
         if keys[pygame.K_RETURN]:
             if time() - self.last_shot > self.shot_delay:
                 self.shots.append(Shot(self))
@@ -125,18 +123,17 @@ class Player:
         self.group.add(self.ship)
     
     def update(self):
-        self.group = pygame.sprite.Group()
+        self.group.empty()
         if self.ship.is_move:
             self.group.add(self.ship.flame)
             self.group.add(self.ship)
         else:
             self.group.add(self.ship)
-        print(len(self.ship.shots))
         for shot in self.ship.shots:
-            if shot.rect.x > self.ship.width or shot.rect.x < 0:
+            if shot.rect.x > self.ship.width + 100 or shot.rect.x + 100 < 0:
                 self.ship.shots.remove(shot)
                 continue
-            if shot.rect.y > self.ship.height or shot.rect.y < 0:
+            if shot.rect.y > self.ship.height + 100 or shot.rect.y + 100 < 0:
                 self.ship.shots.remove(shot)
                 continue
             self.group.add(shot)
