@@ -1,20 +1,24 @@
-from ast import While
 import pygame
 import pygame_menu
 from background import Background
 from player import Player
 from asteroids import Asteroids
 from pause import Pause
+from health import Health
 import json
+from time import time
 class Game:
     def __init__(self, width, height, fps):
-        with open("data.json") as f:
-            self.scoreDict = json.load(f)
+        with open("data.json") as file:
+            self.scoreDict = json.load(file)
         self.width = width
         self.height = height         
         self.fps = fps
         self.count = 0
         self.player_name = ""
+        self.health = 3
+        self.invulnarabilityTime = 2
+        self.deathTime = 0
 
     def start(self):
         pygame.init()
@@ -59,9 +63,8 @@ class Game:
                 menu.draw(self.screen)
             pygame.display.update() 
         
-
     def text_input(self, name):
-        self.player = name
+        self.player_name = name
 
     def add_record(self):
         loseBack = Background("images/youdied.png", self.height, self.width)
@@ -73,7 +76,7 @@ class Game:
             self.screen.blit(loseBack.image, loseBack.rect)
 
             font = pygame.font.Font(None, 200)
-            count = font.render("Score: " + str(self.count), True, (0, 255, 255))
+            count = font.render("Score: " + str(self.count), True, (128, 128, 128))
             self.screen.blit(count,((self.width - count.get_rect().width)/2, 
                                         self.height * 0.65))            
             
@@ -83,6 +86,7 @@ class Game:
                     self.Exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        print(self.player_name)
                         if len(self.player_name) > 2:
                             self.scoreDict[self.player_name] = self.count
                         self.start()
@@ -95,17 +99,21 @@ class Game:
             
 
     def run_game(self):
+        frame = 0
         self.player_name = ""
-        pause = pygame.sprite.Group()
-        pause.add(Pause(self.width))
+        self.health = 3
+        status = pygame.sprite.Group()
+        status.add(Pause(self.width))
+        status.add(Health(self.width))
         player = Player(self.width, self.height)
         asteroids = Asteroids(self.width, self.height)
         Back = Background("images/back.png", self.height, self.width)
 
         self.count = 0
         running = True
-        while running:
+        while running: #main loop
             self.clock.tick(self.fps)
+            frame += 1
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -128,19 +136,38 @@ class Game:
             self.screen.blit(Back.image, Back.rect)
 
             asteroids.group.draw(self.screen)
-            player.group.draw(self.screen)
-            pause.draw(self.screen)
+
+            if time() - self.deathTime > self.invulnarabilityTime:
+                player.group.draw(self.screen)
+            else:
+                if frame%2:
+                    player.group.draw(self.screen)
+
+            status.draw(self.screen)
+
+
             font = pygame.font.Font(None, 60)
-            count = font.render(str(self.count), True, (80, 0, 255, 255))
+            count = font.render("Score: "+str(self.count), True, (80, 0, 255, 255))
             self.screen.blit(count,(0,0))
+
+            font = pygame.font.Font(None, 80)
+            count = font.render(" X "+ str(self.health), True, (80, 0, 255, 255))
+            self.screen.blit(count,(self.width - 110, 0))
+
             pygame.display.flip()  
 
             for asteroid in asteroids.items:
-                if asteroid.rect.left < player.ship.rect.center[0] < asteroid.rect.right :
-                        if asteroid.rect.top < player.ship.rect.center[1] < asteroid.rect.bottom :
-                            self.add_record()
-
-
+                if asteroid.rect.left < player.ship.rect.center[0] < asteroid.rect.right:
+                        if asteroid.rect.top < player.ship.rect.center[1] < asteroid.rect.bottom:
+                            if time() - self.deathTime > self.invulnarabilityTime:
+                                self.deathTime = time()
+                                if self.health == 1:
+                                    self.add_record()
+                                else:
+                                    self.health -= 1
+                                    player = Player(self.width, self.height)
+                                    asteroids.decay(asteroid)
+                                    asteroids.items.remove(asteroid)
 
             for shot in player.ship.shots:
                 for asteroid in asteroids.items:
@@ -160,9 +187,8 @@ class Game:
         self.Exit()  
 
     def Exit(self):
-        print(self.scoreDict)
-        with open("data.json", "w") as f:
-            json.dump(self.scoreDict, f)
+        with open("data.json", "w") as file:
+            json.dump(self.scoreDict, file)
         pygame.quit()
 
 if __name__ == "__main__":

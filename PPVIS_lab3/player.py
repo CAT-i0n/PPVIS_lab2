@@ -1,8 +1,6 @@
 import pygame
 from math import pi, cos, sin
 from time import time
-import random
-
 
 class Shot(pygame.sprite.Sprite):
     def __init__(self, ship):
@@ -65,6 +63,8 @@ class Ship(pygame.sprite.Sprite):
         self.speed_limit = 10
 
     def update(self):
+        if not pygame.mixer.Channel(0).get_busy() and self.is_move:
+            pygame.mixer.Channel(0).play(pygame.mixer.Sound(r'sounds\thrust.wav'))
         keys=pygame.key.get_pressed()
         self.is_move = False   
         if keys[pygame.K_a]:  #left
@@ -89,6 +89,8 @@ class Ship(pygame.sprite.Sprite):
                 self.speed_x *= 0.95
         if keys[pygame.K_RETURN]:
             if time() - self.last_shot > self.shot_delay:
+                if not pygame.mixer.Channel(1).get_busy():
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(r'sounds\fire2.mp3'))
                 self.shots.append(Shot(self))
                 self.last_shot = time()
                 if self.side == 1:

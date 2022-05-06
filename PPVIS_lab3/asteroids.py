@@ -1,7 +1,6 @@
 import pygame
 from random import randrange, choice
 from math import sin, cos, pi
-from copy import deepcopy, copy
 from time import time
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, size = 100):
