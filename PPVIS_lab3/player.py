@@ -60,7 +60,7 @@ class Ship(pygame.sprite.Sprite):
         self.shots = []
         self.is_move = False
         self.last_shot = time()
-        self.shot_delay = 0.2
+        self.shot_delay = 0.3
         self.side = 1
         self.speed_limit = 10
 
@@ -130,10 +130,10 @@ class Player:
         else:
             self.group.add(self.ship)
         for shot in self.ship.shots:
-            if shot.rect.x > self.ship.width + 100 or shot.rect.x + 100 < 0:
+            if shot.rect.left > self.ship.width or shot.rect.right < 0:
                 self.ship.shots.remove(shot)
                 continue
-            if shot.rect.y > self.ship.height + 100 or shot.rect.y + 100 < 0:
+            if shot.rect.top > self.ship.height or shot.rect.bottom < 0:
                 self.ship.shots.remove(shot)
                 continue
             self.group.add(shot)

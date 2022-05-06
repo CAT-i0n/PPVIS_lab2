@@ -9,22 +9,23 @@ class Asteroid(pygame.sprite.Sprite):
         self.size = size
         self.width = width
         self.height = height
-        self.image_orig = pygame.transform.scale(pygame.image.load("images/as1.png").convert_alpha(), (size,size))
+        self.image_orig = pygame.transform.scale(pygame.image.load(f"images/aster{randrange(1,9)}.png").convert_alpha(), (size,size))
         self.image = self.image_orig
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.rot_speed = randrange(1,4)
+        self.rot_speed = randrange(-4,5)
         self.rot = 0
         self.speed = randrange(2,5)
         self.angle = choice((randrange(30, 60), randrange(120, 150), randrange(210, 240),randrange(300, 330))) * pi / 180
-
+    def changeImage(self, image):
+        self.image_orig = image
     def update(self):
         self.old_center = self.rect.center
         self.image = pygame.transform.rotate(self.image_orig, self.rot)
         self.rect = self.image.get_rect()
         self.rect.center = self.old_center
         self.rot += self.rot_speed
-        self.rect.x += self.speed * cos(self.angle )
+        self.rect.x += self.speed * cos(self.angle)
         self.rect.y += self.speed * sin(self.angle)
         if self.rect.center[0] > self.width:
             self.rect.center = (0, self.rect.center[1])
@@ -58,22 +59,24 @@ class Asteroids:
         return choice((choiceX, choiceY))
 
     def decay(self, asteroid):
+        if asteroid.size == 44:
+            return 
         if asteroid.size == 100:
             self.currentNum-=1
             self.decayTime = time()
-        if asteroid.size == 44:
-            return 
         small1 = Asteroid(*asteroid.rect.center, 
                                        self.width, 
                                        self.height,
                                        size = asteroid.size // 1.5)
+        small1.changeImage(pygame.transform.scale(asteroid.image_orig, (asteroid.size // 1.5, asteroid.size // 1.5)))
         small2 = Asteroid(*asteroid.rect.center, 
                                        self.width, 
                                        self.height,
                                        size = asteroid.size // 1.5)
-        small1.angle = asteroid.angle - pi / 18
+        small2.changeImage(pygame.transform.scale(asteroid.image_orig, (asteroid.size // 1.5, asteroid.size // 1.5)))    
+        small1.angle = asteroid.angle - pi / 15
         self.items.append(small1)
-        small2.angle = asteroid.angle + pi / 18
+        small2.angle = asteroid.angle + pi / 15
         self.items.append(small2)
 
     def update(self):
