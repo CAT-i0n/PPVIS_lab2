@@ -1,10 +1,8 @@
 import pygame
 import pygame_menu
-from background import Background
+from sprites import Background, Pause, Health
 from player import Player
 from asteroids import Asteroids
-from pause import Pause
-from health import Health
 import json
 from time import time
 class Game:
@@ -24,7 +22,7 @@ class Game:
         pygame.init()
         pygame.mixer.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("ASSteroids")
+        pygame.display.set_caption("ASteroids")
         self.clock = pygame.time.Clock()
         menu = pygame_menu.Menu('', self.width, self.height,
                        theme=pygame_menu.themes.THEME_DARK,
@@ -97,13 +95,24 @@ class Game:
 
             pygame.display.update() 
             
+    def pause(self):
+        isPause = True
+        while isPause:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.Exit() 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse = pygame.mouse.get_pos()
+                    if 50 > ((self.width/2 - mouse[0])**2 + (50 - mouse[1])**2)**0.5:
+                        isPause = False
 
     def run_game(self):
         frame = 0
         self.player_name = ""
         self.health = 3
         status = pygame.sprite.Group()
-        status.add(Pause(self.width))
+        pauseIcon = Pause(self.width)
+        status.add(pauseIcon)
         status.add(Health(self.width))
         player = Player(self.width, self.height)
         asteroids = Asteroids(self.width, self.height)
@@ -111,7 +120,7 @@ class Game:
 
         self.count = 0
         running = True
-        while running: #main loop
+        while running:
             self.clock.tick(self.fps)
             frame += 1
             for event in pygame.event.get():
@@ -119,16 +128,8 @@ class Game:
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse = pygame.mouse.get_pos()
-                    if 50 > ((self.width/2 - mouse[0])**2 + (50 - mouse[1])**2)**0.5:
-                        isPause = True
-                        while isPause:
-                            for event in pygame.event.get():
-                                if event.type == pygame.QUIT:
-                                    self.Exit() 
-                                if event.type == pygame.MOUSEBUTTONDOWN:
-                                    mouse = pygame.mouse.get_pos()
-                                    if 50 > ((self.width/2 - mouse[0])**2 + (50 - mouse[1])**2)**0.5:
-                                        isPause = False
+                    if pauseIcon.rect.width / 2 > ((self.width/2 - mouse[0])**2 + (pauseIcon.rect.width / 2 - mouse[1])**2)**0.5:
+                        self.pause()
 
             player.update()
             asteroids.update()

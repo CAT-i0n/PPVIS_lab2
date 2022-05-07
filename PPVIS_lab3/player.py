@@ -90,7 +90,9 @@ class Ship(pygame.sprite.Sprite):
         if keys[pygame.K_RETURN]:
             if time() - self.last_shot > self.shot_delay:
                 if not pygame.mixer.Channel(1).get_busy():
-                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(r'sounds\fire2.mp3'))
+                    pygame.mixer.Channel(1).set_volume(0.05)
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(r'sounds\fire.mp3'))
+
                 self.shots.append(Shot(self))
                 self.last_shot = time()
                 if self.side == 1:
@@ -128,9 +130,7 @@ class Player:
         self.group.empty()
         if self.ship.is_move:
             self.group.add(self.ship.flame)
-            self.group.add(self.ship)
-        else:
-            self.group.add(self.ship)
+        self.group.add(self.ship)
         for shot in self.ship.shots:
             if shot.rect.left > self.ship.width or shot.rect.right < 0:
                 self.ship.shots.remove(shot)

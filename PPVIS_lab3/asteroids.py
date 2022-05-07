@@ -58,25 +58,20 @@ class Asteroids:
         return choice((choiceX, choiceY))
 
     def decay(self, asteroid):
+        self.shards = 2
         if asteroid.size == 44:
             return 
         if asteroid.size == 100:
             self.currentNum-=1
             self.decayTime = time()
-        small1 = Asteroid(*asteroid.rect.center, 
+        shards = [Asteroid(*asteroid.rect.center, 
                                        self.width, 
                                        self.height,
-                                       size = asteroid.size // 1.5)
-        small1.changeImage(pygame.transform.scale(asteroid.image_orig, (asteroid.size // 1.5, asteroid.size // 1.5)))
-        small2 = Asteroid(*asteroid.rect.center, 
-                                       self.width, 
-                                       self.height,
-                                       size = asteroid.size // 1.5)
-        small2.changeImage(pygame.transform.scale(asteroid.image_orig, (asteroid.size // 1.5, asteroid.size // 1.5)))    
-        small1.angle = asteroid.angle - pi / 15
-        self.items.append(small1)
-        small2.angle = asteroid.angle + pi / 15
-        self.items.append(small2)
+                                       size = asteroid.size // 1.5) for i in range(self.shards)]
+        [shards[i].changeImage(pygame.transform.scale(asteroid.image_orig, (asteroid.size // 1.5, asteroid.size // 1.5))) for i in range(self.shards)]
+        shards[0].angle = asteroid.angle - pi / 15
+        shards[1].angle = asteroid.angle + pi / 15
+        [self.items.append(shards[i]) for i in range(2)]
 
     def update(self):
         self.group.empty()
