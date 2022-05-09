@@ -17,6 +17,8 @@ class Game:
         self.health = 3
         self.invulnarabilityTime = 2
         self.deathTime = 0
+        self.isHardMode = False
+        self.isOneHealthMode = False
 
     def start(self):
         pygame.init()
@@ -27,7 +29,7 @@ class Game:
         menu = pygame_menu.Menu('', self.width, self.height,
                        theme=pygame_menu.themes.THEME_DARK,
                        onclose = self.Exit)
-        menu.add.button('Play', self.run_game)
+        menu.add.button('Play', self.chooseMod)
         menu.add.button('Leaders', self.leaderBoard)
         menu.add.button('Exit', self.Exit)
         while True:
@@ -42,6 +44,35 @@ class Game:
 
             pygame.display.update() 
 
+    def chooseMod(self):
+        menu = pygame_menu.Menu('', self.width, self.height,
+                       theme=pygame_menu.themes.THEME_DARK,
+                       onclose = self.Exit)
+        menu.add.button('Standart', self.run_game)
+        menu.add.button('Hard', self.setHardMode)
+        menu.add.button('One Health', self.setOneHealthMode)
+        menu.add.button('Return', self.start)
+        while True:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.Exit()
+
+            if menu.is_enabled():
+                menu.update(events)
+                menu.draw(self.screen)
+
+            pygame.display.update() 
+        
+    
+    def setHardMode(self):
+        self.isHardMode = True
+        self.run_game()
+
+    def setOneHealthMode(self):
+        self.isOneHealthMode = True
+        self.run_game()
+        
 
     def leaderBoard(self):
         menu = pygame_menu.Menu('Leaderboard', self.width, self.height,
@@ -109,13 +140,21 @@ class Game:
     def run_game(self):
         frame = 0
         self.player_name = ""
-        self.health = 3
+        if self.isOneHealthMode:
+            self.health = 1
+        else:
+            self.health = 3
         status = pygame.sprite.Group()
         pauseIcon = Pause(self.width)
         status.add(pauseIcon)
         status.add(Health(self.width))
         player = Player(self.width, self.height)
+        
         asteroids = Asteroids(self.width, self.height)
+        if self.isHardMode:
+            player.ship.shot_delay = 0.2
+            asteroids.num = 8
+            asteroids.newAsteroidTime = 3
         Back = Background("images/back.png", self.height, self.width)
 
         self.count = 0
@@ -163,6 +202,8 @@ class Game:
                             if time() - self.deathTime > self.invulnarabilityTime:
                                 self.deathTime = time()
                                 if self.health == 1:
+                                    self.isHardMode = False
+                                    self.isOneHealthMode = False
                                     self.add_record()
                                 else:
                                     self.health -= 1
