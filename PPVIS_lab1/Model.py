@@ -6,8 +6,8 @@ import json
 class Model:
     def __init__(self):
         #changeable vars for generation
-        self.size = 10
-        self.probabilityOfEntities = [0.91, 0.03, 0.03, 0.03]
+        self.size = 20
+        self.probabilityOfEntities = [0.90, 0.04, 0.04, 0.02]
         self.entities = [Ground, Plant, Herbivore, Predator]
     
     def generate(self):
@@ -57,14 +57,6 @@ class Model:
                 if isinstance(entity, (Predator, Herbivore)) and entity not in madeStep:
                     move = entity.step(self.Map, iter1, iter2)
                     move = [move[0] + iter1, move[1] + iter2] 
-                    if move[0] >= self.size:
-                        move[0] -= self.size
-                    if move[0] < 0:
-                        move[0] += self.size
-                    if move[1] >= self.size:
-                        move[1] -= self.size
-                    if move[1] < 0:
-                        move[1] += self.size
                     if isinstance(entity, Predator) and isinstance(self.Map[move[0]][move[1]], Herbivore):
                         entity.energy += 5
                         self.Map[move[0]][move[1]] = entity
@@ -79,9 +71,15 @@ class Model:
                     entity.energy -= 1
                     madeStep.append(entity)
                 if isinstance(entity, Ground):
-                    if randint(0, 25) == 0:
+                    if randint(0, 50) == 0:
                         self.Map[iter1][iter2] = Plant() 
-        
+        for iter1, row in enumerate(self.Map):
+            for iter2, entity in enumerate(row):
+                if isinstance(entity, (Predator, Herbivore)):
+                    if entity.energy >= entity.minEnergyForRepr:
+                        x, y = iter1, iter2
+                        for reprX, reprY in (x+1,y),(x-1,y),(x,y+1),(x,y-1),(x+1,y+1),(x-1,y-1),(x-1,y+1),(x+1,y-1):
+                            if isinstance(self.Map[reprX][reprY])
 
 
 
