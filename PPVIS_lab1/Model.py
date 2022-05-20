@@ -7,7 +7,7 @@ class Model:
     def __init__(self):
         #changeable vars for generation
         self.size = 20
-        self.probabilityOfEntities = [0.90, 0.04, 0.04, 0.02]
+        self.probabilityOfEntities = [0.90, 0.045, 0.045, 0.01]
         self.entities = [Ground, Plant, Herbivore, Predator]
     
     def generate(self):
@@ -79,7 +79,22 @@ class Model:
                     if entity.energy >= entity.minEnergyForRepr:
                         x, y = iter1, iter2
                         for reprX, reprY in (x+1,y),(x-1,y),(x,y+1),(x,y-1),(x+1,y+1),(x-1,y-1),(x-1,y+1),(x+1,y-1):
-                            if isinstance(self.Map[reprX][reprY])
+                            if reprX >= self.size:
+                                reprX -= self.size
+                            if reprX < 0:
+                                reprX += self.size
+                            if reprY >= self.size:
+                                reprY -= self.size
+                            if reprY < 0:
+                                reprY += self.size
+                            if isinstance(self.Map[reprX][reprY], Ground):
+                                self.Map[reprX][reprY] = type(entity)()
+                                self.Map[iter1][iter2].energy -= entity.energyCostForRepr
+                                break
+                    if entity.age >= entity.deathAge or entity.energy<=0:
+                        self.Map[iter1][iter2] = Ground()
+
+
 
 
 
