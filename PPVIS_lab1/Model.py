@@ -1,11 +1,12 @@
 from Objects import Plant, Ground, Herbivore, Predator
-from random import random
+from random import random, randint
 from functools import reduce
 import json
+
 class Model:
     def __init__(self):
         #changeable vars for generation
-        self.size = 15
+        self.size = 10
         self.probabilityOfEntities = [0.91, 0.03, 0.03, 0.03]
         self.entities = [Ground, Plant, Herbivore, Predator]
     
@@ -53,21 +54,34 @@ class Model:
         madeStep = []
         for iter1, row in enumerate(self.Map):
             for iter2, entity in enumerate(row):
-                if isinstance(entity, (Predator, Herbivore)):
-                    if entity not in madeStep:
-                        move = entity.step()
-                        move = [move[0] + iter1, move[1] + iter2] 
-                        if move[0] >= self.size:
-                            move[0] -= self.size
-                        if move[0] < 0:
-                            move[0] += self.size
-                        if move[1] >= self.size:
-                            move[1] -= self.size
-                        if move[1] < 0:
-                            move[1] += self.size
-                        self.Map[iter1][iter2], self.Map[move[0]][move[1]] = self.Map[move[0]][move[1]], entity
-                        entity.energy -= 1
-                        madeStep.append(entity)
+                if isinstance(entity, (Predator, Herbivore)) and entity not in madeStep:
+                    move = entity.step(self.Map, iter1, iter2)
+                    move = [move[0] + iter1, move[1] + iter2] 
+                    if move[0] >= self.size:
+                        move[0] -= self.size
+                    if move[0] < 0:
+                        move[0] += self.size
+                    if move[1] >= self.size:
+                        move[1] -= self.size
+                    if move[1] < 0:
+                        move[1] += self.size
+                    if isinstance(entity, Predator) and isinstance(self.Map[move[0]][move[1]], Herbivore):
+                        entity.energy += 5
+                        self.Map[move[0]][move[1]] = entity
+                        self.Map[iter1][iter2] = Ground()
+                    elif isinstance(entity, Herbivore) and isinstance(self.Map[move[0]][move[1]], Plant):
+                        entity.energy += 5
+                        self.Map[move[0]][move[1]] = entity
+                        self.Map[iter1][iter2] = Ground() 
+                    else:
+                        if isinstance(self.Map[move[0]][move[1]], Ground):
+                            self.Map[iter1][iter2], self.Map[move[0]][move[1]] = self.Map[move[0]][move[1]], entity
+                    entity.energy -= 1
+                    madeStep.append(entity)
+                if isinstance(entity, Ground):
+                    if randint(0, 25) == 0:
+                        self.Map[iter1][iter2] = Plant() 
+        
 
 
 

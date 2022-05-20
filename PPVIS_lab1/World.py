@@ -28,12 +28,13 @@ def makeStep():
 @start.command("make_several_steps")
 @click.option('-n', '--number', default=-1, help = "Num > 0")
 def makeSeveralSteps(number):
-    os.system('cls')
+    print("\033[H\033[J ")
     for _ in range(number):
         print(world)
         sleep(0.5)
         world.makeStep()
-        os.system('cls')
+        print("\033[H\033[J ")
+        
         
     close()
 
