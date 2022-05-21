@@ -8,7 +8,6 @@ class Object:
     
 class Animal(Object):
     def __init__(self):
-        self.isRepr = False # reproduction
         self.minEnergyForRepr = 30
         self.energyCostForRepr = 20
         self.energy = 20
@@ -16,6 +15,7 @@ class Animal(Object):
         self.deathAge = 20
         self.stepDistance = 1
         self.goal = "Herbivore"
+        self.energyFromFood = 5
     def step(self, Map, x, y):
         view = [list(map(lambda x: type(x).__name__, row)) for row in Map]
         size = len(Map)
@@ -78,7 +78,6 @@ class Animal(Object):
             else:
                 stepX = 0
                 stepY = 0
-        print(stepX, stepY)
         return [stepX, stepY]
         
 
@@ -87,7 +86,11 @@ class Predator(Animal):
     def __init__(self):
         super().__init__()
         self.sign="\033[41m#\033[40m \033[0m"
-        self.stepDistance = 2
+        self.goal = "Herbivore"
+        self.deathAge = 30
+        self.stepDistance = 1 #2
+        self.minEnergyForRepr = 35
+        self.energyCostForRepr = 25
         
 
 class Herbivore(Animal):
@@ -95,6 +98,9 @@ class Herbivore(Animal):
         super().__init__()
         self.sign="\033[45m@\033[40m \033[0m"
         self.goal = "Plant"
+        self.stepDistance = 1
+        self.minEnergyForRepr = 25
+        self.energyCostForRepr = 15
     
 class Plant(Object):
     def __init__(self):

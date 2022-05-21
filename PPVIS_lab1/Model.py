@@ -4,9 +4,9 @@ from functools import reduce
 import json
 
 class Model:
-    def __init__(self):
+    def __init__(self, size = 20):
         #changeable vars for generation
-        self.size = 20
+        self.size = size
         self.probabilityOfEntities = [0.90, 0.045, 0.045, 0.01]
         self.entities = [Ground, Plant, Herbivore, Predator]
     
@@ -58,20 +58,21 @@ class Model:
                     move = entity.step(self.Map, iter1, iter2)
                     move = [move[0] + iter1, move[1] + iter2] 
                     if isinstance(entity, Predator) and isinstance(self.Map[move[0]][move[1]], Herbivore):
-                        entity.energy += 5
+                        entity.energy += entity.energyFromFood
                         self.Map[move[0]][move[1]] = entity
                         self.Map[iter1][iter2] = Ground()
                     elif isinstance(entity, Herbivore) and isinstance(self.Map[move[0]][move[1]], Plant):
-                        entity.energy += 5
+                        entity.energy += entity.energyFromFood
                         self.Map[move[0]][move[1]] = entity
                         self.Map[iter1][iter2] = Ground() 
                     else:
                         if isinstance(self.Map[move[0]][move[1]], Ground):
                             self.Map[iter1][iter2], self.Map[move[0]][move[1]] = self.Map[move[0]][move[1]], entity
                     entity.energy -= 1
+                    entity.age += 1
                     madeStep.append(entity)
                 if isinstance(entity, Ground):
-                    if randint(0, 50) == 0:
+                    if randint(0, 30) == 0:
                         self.Map[iter1][iter2] = Plant() 
         for iter1, row in enumerate(self.Map):
             for iter2, entity in enumerate(row):
@@ -95,9 +96,6 @@ class Model:
                         self.Map[iter1][iter2] = Ground()
 
 
-
-
-
     def addObject(self, object, x, y):
         entity = eval(object)()
         self.Map[x][y] = entity
@@ -110,3 +108,5 @@ class Model:
             rez+="\n"
         return rez
 
+    def getMap(self):
+        return [list(map(lambda x: type(x).__name__, row)) for row in self.Map]
