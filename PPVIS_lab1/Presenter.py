@@ -8,6 +8,8 @@ class Presenter:
         self.model.load(self.dataPath)
         self.view.run()
     
+    def addObject(self, *args):
+        self.model.addObject(*args)
 
     def step(self):
         self.model.makeStep()
