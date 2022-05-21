@@ -3,7 +3,7 @@ import pygame_menu
 class View:
     def __init__(self, presenter):
         self.presenter = presenter
-    
+        self.running = False
 
     def run(self):
         def update():
@@ -46,9 +46,9 @@ class View:
                                 position = (5, 70))
             menu.add.text_input(title = "X: ", default = "0", onchange = text_inputX)
             menu.add.text_input(title = "Y: ", default = "0",onchange = text_inputY)
-            menu.add.button("Exit", menu.disable)
-            text_inputX("0")
-            text_inputY("0")
+            menu.add.button("Exit")
+            text_inputX(str(self.size+1))
+            text_inputY(str(self.size+1))
             while True:
                 events = pygame.event.get()
                 for event in events:
@@ -71,31 +71,28 @@ class View:
             menu = pygame_menu.Menu('Choose entity', 400, 400,
                                 theme=pygame_menu.themes.THEME_DARK,
                                 position = (5, 70))
-            running = True
+            def stop():
+                self.running = False
             menu.add.button("Herbivore", inputCoords, "Herbivore")
             menu.add.button("Predator", inputCoords, "Predator")
             menu.add.button("Plant", inputCoords, "Plant")
-            menu.add.button("Exit")
-            
-            while running:
+            menu.add.button("Exit", stop) 
+            while self.running:
                 events = pygame.event.get()
                 if menu.is_enabled():
                     menu.update(events)
                     menu.draw(self.display)
-                events = pygame.event.get()
                 for event in events:
                     if event.type == pygame.QUIT:
                         self.Exit()
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            return
                 pygame.display.update() 
+            self.running = True
 
 
         pygame.init()
         self.display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         clock = pygame.time.Clock()
-        menu = pygame_menu.Menu('', pygame.display.Info().current_w,
+        menu = pygame_menu.Menu('Animal world', pygame.display.Info().current_w,
                                 pygame.display.Info().current_h,
                                 theme=pygame_menu.themes.THEME_DARK,
                                 columns=2,

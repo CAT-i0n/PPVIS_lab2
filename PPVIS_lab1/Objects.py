@@ -1,3 +1,4 @@
+from locale import normalize
 from random import randint, choice
 from math import ceil
 class Object:
@@ -16,9 +17,10 @@ class Animal(Object):
         self.stepDistance = 1
         self.goal = "Herbivore"
         self.energyFromFood = 5
-    def step(self, Map, x, y):
+
+    def getSurround(self, Map, x, y):
         view = [list(map(lambda x: type(x).__name__, row)) for row in Map]
-        size = len(Map)
+        size = self.mapSize
         for row in range(len(view)):
             view[row] = view[row]*3
         view = view*3
@@ -26,38 +28,20 @@ class Animal(Object):
         self.round  = [i[size + y - 1: size + y + 2] for i in rounds]
         view = view[size//2 + x: int(size*1.5) + x]
         self.view = [i[size//2 + y: int(size*1.5) + y] for i in view]
-        
-        distances = []
-        for iter1, row in enumerate(self.view):
-            for iter2, record in enumerate(row):
-                if record == self.goal:
-                    distances.append((iter1 - ceil(len(Map)/2), iter2 - ceil(len(Map)/2)))
-        if distances:
-            closest = sorted(distances, key = lambda c: ((c[0])**2 + (c[1])**2))[0]
-            if abs(closest[0]) >= self.stepDistance:
-                stepX = self.stepDistance * abs(closest[0]) // (closest[0])
-            else: 
-                stepX = closest[0]
+    
+    def normalizeMove(self, x, y):
+        if self.stepX + x >= self.mapSize:
+            self.stepX -= self.mapSize
+        if self.stepX + x < 0:
+            self.stepX += self.mapSize
+        if self.stepY + y >= self.mapSize:
+            self.stepY -= self.mapSize
+        if self.stepY + y < 0:
+            self.stepY += self.mapSize
 
-            if abs(closest[1])>=self.stepDistance:
-                stepY = self.stepDistance * abs(closest[1]) // (closest[1])
-            else: 
-                stepY = closest[1]
-        else:
-            stepX = randint(-self.stepDistance, self.stepDistance)
-            stepY = randint(-self.stepDistance, self.stepDistance)
-        
-        if stepX + x >= len(Map):
-            stepX -= len(Map)
-        if stepX + x < 0:
-            stepX += len(Map)
-        if stepY + y >= len(Map):
-            stepY -= len(Map)
-        if stepY + y < 0:
-            stepY += len(Map)
-
+    def editMove(self, Map, x, y):
         possible = []
-        if not isinstance(Map[stepX + x][stepY + y], (eval(self.goal), Ground)):
+        if not isinstance(Map[self.stepX + x][self.stepY + y], (eval(self.goal), Ground)):
             for iter1, row in enumerate(self.round):
                 for iter2, record in enumerate(row):
                     if iter1 != 1 and iter2 != 1:
@@ -65,20 +49,42 @@ class Animal(Object):
                             possible.append((iter1, iter2))     
             if possible:
                 rand = choice(possible)
-                stepX = rand[0] - 1
-                stepY = rand[1] - 1
-                if stepX + x >= len(Map):
-                    stepX -= len(Map)
-                if stepX + x < 0:
-                    stepX += len(Map)
-                if stepY + y >= len(Map):
-                    stepY -= len(Map)
-                if stepY + y < 0:
-                    stepY += len(Map)
+                self.stepX = rand[0] - 1
+                self.stepY = rand[1] - 1
+                self.normalizeMove(x, y)
             else:
-                stepX = 0
-                stepY = 0
-        return [stepX, stepY]
+                self.stepX = 0
+                self.stepY = 0
+
+
+    def step(self, Map, x, y):
+        self.mapSize = len(Map)
+        self.getSurround(Map, x, y)
+        distances = []
+        for iter1, row in enumerate(self.view):
+            for iter2, record in enumerate(row):
+                if record == self.goal:
+                    distances.append((iter1 - ceil(self.mapSize/2), iter2 - ceil(self.mapSize/2)))
+        if distances:
+            closest = sorted(distances, key = lambda c: ((c[0])**2 + (c[1])**2))[0]
+            if abs(closest[0]) >= self.stepDistance:
+                self.stepX = self.stepDistance * abs(closest[0]) // (closest[0])
+            else: 
+                self.stepX = closest[0]
+
+            if abs(closest[1])>=self.stepDistance:
+                self.stepY = self.stepDistance * abs(closest[1]) // (closest[1])
+            else: 
+                self.stepY = closest[1]
+        else:
+            self.stepX = randint(-self.stepDistance, self.stepDistance)
+            self.stepY = randint(-self.stepDistance, self.stepDistance)
+        
+        self.normalizeMove(x, y)
+
+        self.editMove(Map, x, y)
+        
+        return [self.stepX, self.stepY]
         
 
 

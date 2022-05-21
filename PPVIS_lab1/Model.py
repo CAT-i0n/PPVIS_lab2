@@ -40,45 +40,45 @@ class Model:
     def load(self, dataPath):
         with open(dataPath) as file:
             data = json.load(file)
-        for iter1, row in enumerate(data):
-            for iter2, record in enumerate(row):
+        for rowIter, row in enumerate(data):
+            for columnIter, record in enumerate(row):
                 entity = eval(record["name"])()
                 if isinstance(entity, (Predator, Herbivore)):
                     entity.age = int(record["age"])
                     entity.energy = int(record["energy"])
-                data[iter1][iter2] = entity
+                data[rowIter][columnIter] = entity
         self.Map = data
 
 
     def makeStep(self):
         madeStep = []
-        for iter1, row in enumerate(self.Map):
-            for iter2, entity in enumerate(row):
+        for rowIter, row in enumerate(self.Map):
+            for columnIter, entity in enumerate(row):
                 if isinstance(entity, (Predator, Herbivore)) and entity not in madeStep:
-                    move = entity.step(self.Map, iter1, iter2)
-                    move = [move[0] + iter1, move[1] + iter2] 
-                    if isinstance(entity, Predator) and isinstance(self.Map[move[0]][move[1]], Herbivore):
+                    move = entity.step(self.Map, rowIter, columnIter)
+                    move = [move[0] + rowIter, move[1] + columnIter] 
+                    if isinstance(self.Map[move[0]][move[1]], eval(entity.goal)):
                         entity.energy += entity.energyFromFood
                         self.Map[move[0]][move[1]] = entity
-                        self.Map[iter1][iter2] = Ground()
-                    elif isinstance(entity, Herbivore) and isinstance(self.Map[move[0]][move[1]], Plant):
-                        entity.energy += entity.energyFromFood
-                        self.Map[move[0]][move[1]] = entity
-                        self.Map[iter1][iter2] = Ground() 
+                        self.Map[rowIter][columnIter] = Ground()
                     else:
                         if isinstance(self.Map[move[0]][move[1]], Ground):
-                            self.Map[iter1][iter2], self.Map[move[0]][move[1]] = self.Map[move[0]][move[1]], entity
+                            self.Map[rowIter][columnIter], self.Map[move[0]][move[1]] = self.Map[move[0]][move[1]], entity
                     entity.energy -= 1
                     entity.age += 1
                     madeStep.append(entity)
                 if isinstance(entity, Ground):
                     if randint(0, 30) == 0:
-                        self.Map[iter1][iter2] = Plant() 
-        for iter1, row in enumerate(self.Map):
-            for iter2, entity in enumerate(row):
+                        self.Map[rowIter][columnIter] = Plant() 
+        self.deathAndBirth()
+
+
+    def deathAndBirth(self):
+        for rowIter, row in enumerate(self.Map):
+            for columnIter, entity in enumerate(row):
                 if isinstance(entity, (Predator, Herbivore)):
                     if entity.energy >= entity.minEnergyForRepr:
-                        x, y = iter1, iter2
+                        x, y = rowIter, columnIter
                         for reprX, reprY in (x+1,y),(x-1,y),(x,y+1),(x,y-1),(x+1,y+1),(x-1,y-1),(x-1,y+1),(x+1,y-1):
                             if reprX >= self.size:
                                 reprX -= self.size
@@ -90,10 +90,10 @@ class Model:
                                 reprY += self.size
                             if isinstance(self.Map[reprX][reprY], Ground):
                                 self.Map[reprX][reprY] = type(entity)()
-                                self.Map[iter1][iter2].energy -= entity.energyCostForRepr
+                                self.Map[rowIter][columnIter].energy -= entity.energyCostForRepr
                                 break
                     if entity.age >= entity.deathAge or entity.energy<=0:
-                        self.Map[iter1][iter2] = Ground()
+                        self.Map[rowIter][columnIter] = Ground()
 
 
     def addObject(self, object, x, y):
