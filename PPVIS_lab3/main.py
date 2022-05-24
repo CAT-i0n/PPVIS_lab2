@@ -35,15 +35,23 @@ class Game:
         self.menuAsteroids.decay(self.menuAsteroids.items[11])
         self.menuAsteroids.decay(self.menuAsteroids.items[13])
 
+    def backMusic(self):
+        if not pygame.mixer.Channel(4).get_busy():
+                pygame.mixer.Channel(4).set_volume(0.4)
+                pygame.mixer.Channel(4).play(
+                pygame.mixer.Sound(r'sounds\background1.mp3'))
+
     def start(self):
         menu = pygame_menu.Menu('', self.width, self.height,
                        theme=MenuTheme())
         menu.add.label("ASTEROIDS", font_size = 70)
+        menu.add.label("", font_size = 30)
         menu.add.button('Play', self.chooseMod)
         menu.add.button('Leaders', self.leaderBoard)
-        menu.add.button('Help')
+        menu.add.button('Help', self.help)
         menu.add.button('Exit', self.Exit)
         while True:
+            self.backMusic()
             self.clock.tick(self.fps)
             events = pygame.event.get()
             for event in events:
@@ -57,7 +65,32 @@ class Game:
                 menu.draw(self.screen)
             pygame.display.update() 
 
+    def help(self):
+        menu = pygame_menu.Menu('', 1000, 600,
+                       theme=MenuTheme())
+        menu.add.label("W     move forward")
+        menu.add.label("D     rught turn")
+        menu.add.label("A     left turn")
+        menu.add.label("Space     slow down")
+        menu.add.label("Enter     shoot")
+        menu.add.button('Return', self.start)
+        while True:
+            self.backMusic()
+            self.clock.tick(self.fps)
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.Exit()
+            self.screen.blit(self.Back.image, self.Back.rect)
+            self.menuAsteroids.update()
+            self.menuAsteroids.group.draw(self.screen)
+            if menu.is_enabled():
+                menu.update(events)
+                menu.draw(self.screen)
+            pygame.display.update() 
+    
     def chooseMod(self):
+        self.backMusic()
         menu = pygame_menu.Menu('', self.width, self.height,
                        theme=MenuTheme())
         menu.add.button('Standart', self.run_game)
@@ -89,13 +122,14 @@ class Game:
         
 
     def leaderBoard(self):
-        menu = pygame_menu.Menu('Leaderboard', 1000, 600,
+        menu = pygame_menu.Menu('', 1000, 600,
                        theme=MenuTheme())
         
         for record in reversed(sorted(self.scoreDict.items(), key = lambda x: x[1])):
-            menu.add.button(record[0] + '-'*(30-len(record[0]+str(record[1]))) +  str(record[1]), None)
+            menu.add.label(record[0] + ' '*(30-len(record[0]+str(record[1]))) +  str(record[1]))
         menu.add.button('Return', self.start)
         while True:
+            self.backMusic()
             self.clock.tick(self.fps)
             events = pygame.event.get()
             for event in events:
@@ -114,11 +148,12 @@ class Game:
 
     def add_record(self):
         loseBack = Background("images/youdied.png", self.height, self.width)
-        menu = pygame_menu.Menu('Enter your name', 400, 120,
+        menu = pygame_menu.Menu('Enter your name(more the 2 symbols)', 800, 120,
                        theme=pygame_menu.themes.THEME_DARK,
                        position =  (50, 98))
         menu.add.text_input(title = "", onchange = self.text_input)
         while True:
+            self.backMusic()
             self.screen.blit(loseBack.image, loseBack.rect)
 
             font = pygame.font.Font(None, 200)
@@ -175,6 +210,7 @@ class Game:
         self.count = 0
         running = True
         while running:
+            self.backMusic()
             self.clock.tick(self.fps)
             frame += 1
             for event in pygame.event.get():
@@ -224,6 +260,8 @@ class Game:
                                     player = Player(self.width, self.height)
                                     asteroids.decay(asteroid)
                                     asteroids.items.remove(asteroid)
+                                    if self.isHardMode:
+                                        player.ship.shot_delay = 0.2
 
             for shot in player.ship.shots:
                 for asteroid in asteroids.items:
