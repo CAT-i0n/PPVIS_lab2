@@ -1,3 +1,4 @@
+from tkinter import font
 import pygame
 import pygame_menu
 from sprites import Background, Pause, Health
@@ -5,6 +6,7 @@ from player import Player
 from asteroids import Asteroids
 import json
 from time import time
+from theme import MenuTheme
 class Game:
     def __init__(self, width, height, fps):
         with open("data.json") as file:
@@ -19,49 +21,61 @@ class Game:
         self.deathTime = 0
         self.isHardMode = False
         self.isOneHealthMode = False
-
-    def start(self):
+        self.clock = pygame.time.Clock()
         pygame.init()
         pygame.mixer.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("ASteroids")
-        self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.Back = Background("images/back.png", self.height, self.width)
+        self.menuAsteroids = Asteroids(self.width, self.height)
+        self.menuAsteroids.decay(self.menuAsteroids.items[0])
+        self.menuAsteroids.decay(self.menuAsteroids.items[1])
+        self.menuAsteroids.decay(self.menuAsteroids.items[2])
+        self.menuAsteroids.decay(self.menuAsteroids.items[9])
+        self.menuAsteroids.decay(self.menuAsteroids.items[11])
+        self.menuAsteroids.decay(self.menuAsteroids.items[13])
+
+    def start(self):
         menu = pygame_menu.Menu('', self.width, self.height,
-                       theme=pygame_menu.themes.THEME_DARK,
-                       onclose = self.Exit)
+                       theme=MenuTheme())
+        menu.add.label("ASTEROIDS", font_size = 70)
         menu.add.button('Play', self.chooseMod)
         menu.add.button('Leaders', self.leaderBoard)
+        menu.add.button('Help')
         menu.add.button('Exit', self.Exit)
         while True:
+            self.clock.tick(self.fps)
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
                     self.Exit()
-
+            self.screen.blit(self.Back.image, self.Back.rect)
+            self.menuAsteroids.update()
+            self.menuAsteroids.group.draw(self.screen)
             if menu.is_enabled():
                 menu.update(events)
                 menu.draw(self.screen)
-
             pygame.display.update() 
 
     def chooseMod(self):
         menu = pygame_menu.Menu('', self.width, self.height,
-                       theme=pygame_menu.themes.THEME_DARK,
-                       onclose = self.Exit)
+                       theme=MenuTheme())
         menu.add.button('Standart', self.run_game)
         menu.add.button('Hard', self.setHardMode)
         menu.add.button('One Health', self.setOneHealthMode)
         menu.add.button('Return', self.start)
         while True:
+            self.clock.tick(self.fps)
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
                     self.Exit()
-
+            self.screen.blit(self.Back.image, self.Back.rect)
+            self.menuAsteroids.update()
+            self.menuAsteroids.group.draw(self.screen)
             if menu.is_enabled():
                 menu.update(events)
                 menu.draw(self.screen)
-
             pygame.display.update() 
         
     
@@ -75,18 +89,21 @@ class Game:
         
 
     def leaderBoard(self):
-        menu = pygame_menu.Menu('Leaderboard', self.width, self.height,
-                       theme=pygame_menu.themes.THEME_DARK)
+        menu = pygame_menu.Menu('Leaderboard', 1000, 600,
+                       theme=MenuTheme())
         
         for record in reversed(sorted(self.scoreDict.items(), key = lambda x: x[1])):
             menu.add.button(record[0] + '-'*(30-len(record[0]+str(record[1]))) +  str(record[1]), None)
         menu.add.button('Return', self.start)
         while True:
+            self.clock.tick(self.fps)
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
                     self.Exit()
-
+            self.screen.blit(self.Back.image, self.Back.rect)
+            self.menuAsteroids.update()
+            self.menuAsteroids.group.draw(self.screen)
             if menu.is_enabled():
                 menu.update(events)
                 menu.draw(self.screen)
@@ -149,14 +166,12 @@ class Game:
         status.add(pauseIcon)
         status.add(Health(self.width))
         player = Player(self.width, self.height)
-        
         asteroids = Asteroids(self.width, self.height)
         if self.isHardMode:
             player.ship.shot_delay = 0.2
             asteroids.num = 8
             asteroids.newAsteroidTime = 3
         Back = Background("images/back.png", self.height, self.width)
-
         self.count = 0
         running = True
         while running:
@@ -184,7 +199,6 @@ class Game:
                     player.group.draw(self.screen)
 
             status.draw(self.screen)
-
 
             font = pygame.font.Font(None, 60)
             count = font.render("Score: "+str(self.count), True, (80, 0, 255, 255))
