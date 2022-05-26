@@ -6,7 +6,7 @@ Simple simulation of animal world
     - -x --xcoord 
     - -y --ycoord    
   - generate - Generate new world
+  - make_step
   - make_several_steps 
     - -n -- number - num of steps
-  - make_step
   - show
