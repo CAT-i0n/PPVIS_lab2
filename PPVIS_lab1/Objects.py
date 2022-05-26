@@ -1,15 +1,14 @@
 from locale import normalize
 from random import randint, choice
 from math import ceil
-class Object:
+from abc import ABC
 
-    
-    def __init__(self) -> None:
-        self.sign: str = ""
+class Object(ABC):    
+    sign: str = ""
     def __str__(self) -> str:
         return self.sign
     
-class Animal(Object):
+class Animal(Object, ABC):
     def __init__(self) -> None:
         #changeable vars for simulation
         self.minEnergyForRepr: int = 30
