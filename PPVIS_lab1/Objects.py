@@ -18,7 +18,7 @@ class Animal(Object, ABC):
         self.deathAge: int = 20
         self.stepDistance: int = 1
         self.goal: str = "Herbivore"
-        self.energyFromFood: int = 5
+        self.energyFromFood: int = 5 
 
     def __getSurround(self, Map, x, y) -> None:
         view = [list(map(lambda x: type(x).__name__, row)) for row in Map]

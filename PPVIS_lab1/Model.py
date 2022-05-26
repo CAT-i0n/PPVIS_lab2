@@ -7,7 +7,7 @@ class Model:
     def __init__(self, size: int = 15) -> None:
         #changeable vars for generation
         self._size: int = size
-        self._probabilityOf_Entities: tuple = (0.90, 0.045, 0.045, 0.01)
+        self._probabilityOfEntities: tuple = (0.90, 0.045, 0.045, 0.01)
         self._entities: tuple = (Ground, Plant, Herbivore, Predator)
     
     def generate(self) -> None:
@@ -16,8 +16,8 @@ class Model:
             row = []
             for _ in range(self._size):
                 randProb = random() #from 0 to 1
-                for num, prob in enumerate(self._probabilityOf_Entities):
-                    if reduce(lambda x,y:x+y, self._probabilityOf_Entities[:num + 1]) > randProb:
+                for num, prob in enumerate(self._probabilityOfEntities):
+                    if reduce(lambda x,y:x+y, self._probabilityOfEntities[:num + 1]) > randProb:
                         row.append(self._entities[num]())
                         break
             self.Map.append(row)
