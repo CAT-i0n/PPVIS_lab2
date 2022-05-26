@@ -25,9 +25,6 @@ Move : energy -= 1
 
 Eat : energy +=5
 
-Dead : energy = 0
-Dead : age > 20
-
 Reproduce: energy -= 20
 
 
