@@ -5,7 +5,11 @@ class Presenter:
         self.dataPath = datapath
         self._view: View = View(self)
         self._model: Model = Model(size = size)
-        self._model.load(self.dataPath)
+        try:
+            self._model.load(self.dataPath)
+        except FileNotFoundError:
+            print("Wrong datapath")
+            raise SystemExit
         self._view.run()
     
     def addObject(self, *args) -> None:
@@ -24,3 +28,5 @@ class Presenter:
         self._model.save(self.dataPath)
     
 
+if __name__ == "__main__":
+    p = Presenter()

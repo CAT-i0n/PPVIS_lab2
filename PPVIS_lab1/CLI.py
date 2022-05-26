@@ -28,6 +28,12 @@ def makeStep() -> None:
 @start.command("make_several_steps")
 @click.option('-n', '--number', default=-1, help = "Num > 0")
 def makeSeveralSteps(number: int) -> None:
+    try:
+        if number < 0:
+            raise
+    except Exception:
+        print("Number of steps cant be lower than zero")
+        raise SystemExit
     print("\033[H\033[J ")
     for _ in range(number):
         print(world)
@@ -42,6 +48,18 @@ def makeSeveralSteps(number: int) -> None:
 @click.option('-y', '--ycoord', default=0, help = "from 0 to 14")
 def addObject(object: str, xcoord: int, ycoord: int) -> None:
     """Add object on map by coords"""
+    try:
+        if object not in ("Plant", "Herbivore", "Ground", "Predator"):
+            raise
+    except Exception:
+        print("Wrong object type")
+        raise SystemExit
+    try:
+        if ycoord < 0 or xcoord < 0:
+            raise
+    except Exception:
+        print("Coordinates cant be lower than zero")
+        raise SystemExit
     world.addObject(object, xcoord, ycoord)
     close()
 
@@ -52,11 +70,19 @@ def show() -> None:
 
 def close() -> None:
     print(world)
-    world.save(dataPath)
+    try:
+        world.save(dataPath)
+    except FileNotFoundError:
+        print("Wrong datapath")
+        raise SystemExit
 
 
 if __name__ == "__main__":
     world: Model = Model()
-    world.load(dataPath)
+    try:
+        world.load(dataPath)
+    except FileNotFoundError:
+        print("Wrong datapath")
+        raise SystemExit
     start()
     

@@ -34,7 +34,7 @@ class Model:
                 else: 
                     saveRow.append({"name" : type(entity).__name__})
             saveList.append(saveRow)
-        with open("world.json", "w") as file:
+        with open(dataPath, "w") as file:
             json.dump(saveList, file)
 
     def load(self, dataPath: str) -> None:
