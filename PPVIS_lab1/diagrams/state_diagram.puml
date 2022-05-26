@@ -1,0 +1,34 @@
+@startuml animal_states
+
+' State transition
+[*] --> Birth
+
+Birth --> Move
+Birth --> Eat : found food
+Birth --> Dead : eaten by someone
+
+Move --> Eat : found food
+Move --> Dead : eaten by someone, energy is 0, age > 20
+Move --> Move
+
+Move --> Reproduce : if enough energy
+Reproduce --> Move
+Eat --> Move
+Dead --> [*]
+
+' State features
+Birth : energy = 30
+Birth : age = 0
+
+Move : age += 1
+Move : energy -= 1
+
+Eat : energy +=5
+
+Dead : energy = 0
+Dead : age > 20
+
+Reproduce: energy -= 20
+
+
+@enduml

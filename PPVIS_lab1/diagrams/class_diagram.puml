@@ -1,0 +1,73 @@
+@startuml class_diagram
+
+class Model
+{
+    -size: int
+    -_probabilityOfEntities: tuple[int]
+    -_entities: tuple
+    +__init__(size: int)
+    +generate()
+    +save(dataPath: str)
+    +load(dataPath: str)
+    +makeStep()
+    -__deathAndBirth()
+    +addObject(object: str, x: int, y: int)
+    -__str__()
+    +getMap(): list
+}
+
+
+abstract Object
+{
+    +sign: str
+    __
+    -__str__(): str
+}
+
+abstract Animal
+{
+    +minEnergyForRepr: int
+    +energyCostForRepr: int
+    +energy: int
+    +age: int
+    +deathAge: int
+    +stepDistance: int
+    +goal: str
+    +energyFromFood: int
+    __
+    -__getSurround()
+    -__normalizeMove()
+    -__editMove()
+    +step(Map: list, x: int, y: int):  tuple[int]
+}
+
+class Predator
+{
+
+}
+
+class Herbivore
+{
+
+}
+
+class Plant
+{
+
+}
+
+class Ground
+{
+
+}
+
+Object <|-- Animal
+Object <|-- Ground
+Object <|-- Plant
+Animal <|-- Herbivore
+Animal <|-- Predator
+Model *-- Ground
+Model *-- Plant
+Model *-- Herbivore
+Model *-- Predator
+@enduml
