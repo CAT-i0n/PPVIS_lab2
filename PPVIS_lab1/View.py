@@ -1,15 +1,15 @@
 import pygame
 import pygame_menu
 class View:
-    def __init__(self, presenter):
+    def __init__(self, presenter) -> None:
         self.presenter = presenter
-        self.running = False
+        self._running: bool = False
 
-    def run(self):
-        def update():
-            Map = self.presenter.getMap()
-            for x in range(self.size):
-                for y in range(self.size):
+    def run(self) -> None:
+        def update() -> None:
+            Map: list = self.presenter.getMap()
+            for x in range(self._size):
+                for y in range(self._size):
                     if Map[x][y] == "Herbivore":
                         image = pygame_menu.baseimage.BaseImage("img/rabbit.png")
                         table.get_cell(x+1, y+1).set_image(image)
@@ -23,32 +23,39 @@ class View:
                         image = pygame_menu.baseimage.BaseImage("img/back.png").scale(0.5, 0.5)
                         table.get_cell(x+1, y+1).set_image(image)
 
-        def step():
+        def step() -> None:
             self.presenter.step()
 
-        def generate():
+        def generate() -> None:
             self.presenter.generate()
 
-        def quit():
+        def quit() -> None:
             self.presenter.save()
             menu.disable()
 
-        def text_inputX(x):
-            self.coordX = x
+        def text_inputX(x: str) -> None:
+            self._coordX = int(x)
 
-        def text_inputY(y):
-            self.coordY = y
+        def text_inputY(y: str) -> None:
+            self._coordY = int(y)
 
 
-        def inputCoords(objectType):
+        def inputCoords(objectType) -> None:
             menu = pygame_menu.Menu('Print coordinates', 400, 400,
                                 theme=pygame_menu.themes.THEME_DARK,
                                 position = (5, 70))
-            menu.add.text_input(title = "X: ", default = "0", onchange = text_inputX)
-            menu.add.text_input(title = "Y: ", default = "0",onchange = text_inputY)
+            valid_chars = [str(i) for i in range(10)]
+            menu.add.text_input(title = "X: ", 
+                                default = "0", 
+                                onchange = text_inputX, 
+                                valid_chars= valid_chars)
+            menu.add.text_input(title = "Y: ", 
+                                default = "0",
+                                onchange = text_inputY,
+                                valid_chars= valid_chars)
             menu.add.button("Exit")
-            text_inputX(str(self.size+1))
-            text_inputY(str(self.size+1))
+            text_inputX("0")
+            text_inputY("0")
             while True:
                 events = pygame.event.get()
                 for event in events:
@@ -56,9 +63,8 @@ class View:
                         self.Exit()
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            if self.coordX.isdigit() and self.coordY.isdigit():
-                                if 0<=int(self.coordX)<=self.size and 0<=int(self.coordY)<=self.size:
-                                    self.presenter.addObject(objectType, int(self.coordX), int(self.coordY))
+                            if 0<=self._coordX<=self._size and 0<=self._coordY<=self._size:
+                                self.presenter.addObject(objectType, self._coordX, self._coordY)
                             return
 
                 if menu.is_enabled():
@@ -67,17 +73,17 @@ class View:
 
                 pygame.display.update() 
 
-        def addObject():
+        def addObject() -> None:
             menu = pygame_menu.Menu('Choose entity', 400, 400,
                                 theme=pygame_menu.themes.THEME_DARK,
                                 position = (5, 70))
             def stop():
-                self.running = False
+                self._running = False
             menu.add.button("Herbivore", inputCoords, "Herbivore")
             menu.add.button("Predator", inputCoords, "Predator")
             menu.add.button("Plant", inputCoords, "Plant")
             menu.add.button("Exit", stop) 
-            while self.running:
+            while self._running:
                 events = pygame.event.get()
                 if menu.is_enabled():
                     menu.update(events)
@@ -86,7 +92,7 @@ class View:
                     if event.type == pygame.QUIT:
                         self.Exit()
                 pygame.display.update() 
-            self.running = True
+            self._running = True
 
 
         pygame.init()
@@ -106,14 +112,14 @@ class View:
 
         table = menu.add.table()
         
-        Map = self.presenter.getMap()
-        self.size = len(Map)
+        Map: list = self.presenter.getMap()
+        self._size: int = len(Map)
 
         table.resize(width=60, height = 60)
 
-        for i in range(self.size):
+        for i in range(self._size):
             row = list()
-            for x in range(self.size):
+            for x in range(self._size):
                 row.append(pygame_menu.widgets.Image("img/back.png", scale=(0.5, 0.5)))
             table.add_row(row, cell_align=pygame_menu.locals.ALIGN_CENTER, cell_border_width=1)
         menu.mainloop(self.display, bgfun=update)

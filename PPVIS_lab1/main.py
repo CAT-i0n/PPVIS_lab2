@@ -7,13 +7,13 @@ def run():
     pass
 
 @run.command("gui")
-def gui():
+def gui() -> None:
     p = Presenter()
 
 @run.command("cli")
-def cli():
+def cli() -> None:
     print(">>>", end=" ")
-    command = input()
+    command: str = input()
     os.system("python CLI.py " + command)
 
 if __name__ == "__main__":

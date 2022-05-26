@@ -2,23 +2,26 @@ from locale import normalize
 from random import randint, choice
 from math import ceil
 class Object:
-    def __init__(self):
-        self.sign=""
-    def __str__(self):
+
+    
+    def __init__(self) -> None:
+        self.sign: str = ""
+    def __str__(self) -> str:
         return self.sign
     
 class Animal(Object):
-    def __init__(self):
-        self.minEnergyForRepr = 30
-        self.energyCostForRepr = 20
-        self.energy = 20
-        self.age = 0
-        self.deathAge = 20
-        self.stepDistance = 1
-        self.goal = "Herbivore"
-        self.energyFromFood = 5
+    def __init__(self) -> None:
+        #changeable vars for simulation
+        self.minEnergyForRepr: int = 30
+        self.energyCostForRepr: int = 20
+        self.energy: int = 20
+        self.age: int = 0
+        self.deathAge: int = 20
+        self.stepDistance: int = 1
+        self.goal: str = "Herbivore"
+        self.energyFromFood: int = 5
 
-    def getSurround(self, Map, x, y):
+    def __getSurround(self, Map, x, y) -> None:
         view = [list(map(lambda x: type(x).__name__, row)) for row in Map]
         size = self.mapSize
         for row in range(len(view)):
@@ -29,7 +32,7 @@ class Animal(Object):
         view = view[size//2 + x: int(size*1.5) + x]
         self.view = [i[size//2 + y: int(size*1.5) + y] for i in view]
     
-    def normalizeMove(self, x, y):
+    def __normalizeMove(self, x, y) -> None:
         if self.stepX + x >= self.mapSize:
             self.stepX -= self.mapSize
         if self.stepX + x < 0:
@@ -39,7 +42,7 @@ class Animal(Object):
         if self.stepY + y < 0:
             self.stepY += self.mapSize
 
-    def editMove(self, Map, x, y):
+    def __editMove(self, Map, x, y) -> None:
         possible = []
         if not isinstance(Map[self.stepX + x][self.stepY + y], (eval(self.goal), Ground)):
             for iter1, row in enumerate(self.round):
@@ -51,15 +54,15 @@ class Animal(Object):
                 rand = choice(possible)
                 self.stepX = rand[0] - 1
                 self.stepY = rand[1] - 1
-                self.normalizeMove(x, y)
+                self.__normalizeMove(x, y)
             else:
                 self.stepX = 0
                 self.stepY = 0
 
 
-    def step(self, Map, x, y):
+    def step(self, Map, x, y) -> list:
         self.mapSize = len(Map)
-        self.getSurround(Map, x, y)
+        self.__getSurround(Map, x, y)
         distances = []
         for iter1, row in enumerate(self.view):
             for iter2, record in enumerate(row):
@@ -80,9 +83,9 @@ class Animal(Object):
             self.stepX = randint(-self.stepDistance, self.stepDistance)
             self.stepY = randint(-self.stepDistance, self.stepDistance)
         
-        self.normalizeMove(x, y)
+        self.__normalizeMove(x, y)
 
-        self.editMove(Map, x, y)
+        self.__editMove(Map, x, y)
         
         return [self.stepX, self.stepY]
         
@@ -91,7 +94,7 @@ class Animal(Object):
 class Predator(Animal):
     def __init__(self):
         super().__init__()
-        self.sign="\033[41m#\033[40m \033[0m"
+        self.sign = "\033[41m#\033[40m \033[0m"
         self.goal = "Herbivore"
         self.deathAge = 30
         self.stepDistance = 1 #2
