@@ -9,7 +9,7 @@ class IView:
         pass
 
 
-class View:
+class View(IView):
     def __init__(self, presenter) -> None:
         self.presenter = presenter
         self._running: bool = False
