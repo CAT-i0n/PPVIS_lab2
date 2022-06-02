@@ -1,6 +1,35 @@
 from View import View
-from Model import Model
-class Presenter:
+from Model.Model import Model
+from abc import abstractmethod
+
+class IPresenter:
+
+    @abstractmethod
+    def addObject(self, *args):
+        pass
+
+    @abstractmethod
+    def step(self):
+        pass
+
+    @abstractmethod
+    def getMap(self):
+        pass
+
+    @abstractmethod
+    def generate(self):
+        pass
+
+    @abstractmethod
+    def generate(self):
+        pass
+
+    @abstractmethod
+    def save(self):
+        pass
+
+
+class Presenter(IPresenter):
     def __init__(self, size: int = 15, datapath: str = "world.json") -> None:
         self.dataPath = datapath
         self._view: View = View(self)

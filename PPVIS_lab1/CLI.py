@@ -1,4 +1,4 @@
-from Model import Model
+from Model.Model import Model
 import click
 import os
 from time import sleep

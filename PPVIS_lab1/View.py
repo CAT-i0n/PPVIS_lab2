@@ -1,5 +1,14 @@
 import pygame
 import pygame_menu
+from abc import abstractmethod
+
+class IView:
+
+    @abstractmethod
+    def run():
+        pass
+
+
 class View:
     def __init__(self, presenter) -> None:
         self.presenter = presenter

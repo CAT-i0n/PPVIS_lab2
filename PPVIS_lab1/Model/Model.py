@@ -1,4 +1,4 @@
-from Objects import Plant, Ground, Herbivore, Predator
+from Model.Objects import Plant, Ground, Herbivore, Predator
 from random import random, randint
 from functools import reduce
 import json
