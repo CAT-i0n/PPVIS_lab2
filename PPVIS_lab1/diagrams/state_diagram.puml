@@ -1,31 +1,44 @@
-@startuml animal_states
+@startuml state_diagram
+[*] --> LoadState
 
-' State transition
-[*] --> Birth
+LoadState --> Options
 
-Birth --> Move
-Birth --> Eat : found food
-Birth --> Dead : eaten by someone
+LoadState --> Error: [wrong datapath]
 
-Move --> Eat : found food
-Move --> Dead : eaten by someone, energy is 0, age > 20
-Move --> Move
+Options --> AddObject: [select add_object option]
+Options --> GenerateNewState: [select generate option]
+Options --> MakeStep: [select make_step option]
+Options --> MakeSeveralSteps: [select make_several_steps option]
+Options --> ShowState: [select show option]
+Options --> Help: [select help option]
+Options --> Error: [used wrong option]
 
-Move --> Reproduce : if enough energy
-Reproduce --> Move
-Eat --> Move
-Dead --> [*]
+Help --> [*]
 
-' State features
-Birth : energy = 30
-Birth : age = 0
+AddObject --> Error: [wrong object type]
+AddObject --> Error: [invalid coordinates]
 
-Move : age += 1
-Move : energy -= 1
+MakeSeveralSteps --> Error: [invalid num of steps]
 
-Eat : energy +=5
+AddObject --> ShowState
+GenerateNewState --> ShowState
+MakeStep --> ShowState
+MakeSeveralSteps --> ShowState
 
-Reproduce: energy -= 20
+ShowState --> SaveStateAndExit
 
+Error --> [*]
+
+SaveStateAndExit --> [*]
+
+AddObject: add choosen type of object by given coordinates
+
+MakeStep: make new step of simulation
+
+MakeSeveralSteps: make given num of steps of simulation
+
+GenerateNewState: create new randomized simulation
+
+Help: show possible options
 
 @enduml
