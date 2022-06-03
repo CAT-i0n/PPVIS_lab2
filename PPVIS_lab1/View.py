@@ -43,9 +43,13 @@ class View(IView):
             menu.disable()
 
         def text_inputX(x: str) -> None:
+            if not x:
+                x = "0"
             self._coordX = int(x)
 
         def text_inputY(y: str) -> None:
+            if not y:
+                y = "0"
             self._coordY = int(y)
 
 
