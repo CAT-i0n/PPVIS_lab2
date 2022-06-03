@@ -13,22 +13,22 @@ class View(IView):
     def __init__(self, presenter) -> None:
         self.presenter = presenter
         self._running: bool = False
+        self.Map = []
 
     def run(self) -> None:
         def update() -> None:
-            Map: list = self.presenter.getMap()
             for x in range(self._size):
                 for y in range(self._size):
-                    if Map[x][y] == "Herbivore":
+                    if self.Map[x][y] == "Herbivore":
                         image = pygame_menu.baseimage.BaseImage("img/rabbit.png")
                         table.get_cell(x+1, y+1).set_image(image)
-                    elif Map[x][y] == "Predator":
+                    elif self.Map[x][y] == "Predator":
                         image = pygame_menu.baseimage.BaseImage("img/wolf.png").scale(0.5,0.5)
                         table.get_cell(x+1, y+1).set_image(image)
-                    elif Map[x][y] == "Plant":
+                    elif self.Map[x][y] == "Plant":
                         image = pygame_menu.baseimage.BaseImage("img/carrot.png")
                         table.get_cell(x+1, y+1).set_image(image)
-                    elif Map[x][y] == "Ground":
+                    elif self.Map[x][y] == "Ground":
                         image = pygame_menu.baseimage.BaseImage("img/back.png").scale(0.5, 0.5)
                         table.get_cell(x+1, y+1).set_image(image)
 
@@ -121,8 +121,7 @@ class View(IView):
 
         table = menu.add.table()
         
-        Map: list = self.presenter.getMap()
-        self._size: int = len(Map)
+        self._size: int = len(self.Map)
 
         table.resize(width=60, height = 60)
 

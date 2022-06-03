@@ -8,7 +8,9 @@ def run():
 
 @run.command("gui")
 def gui() -> None:
-    p = Presenter()
+    datapath = "world.json"
+    p = Presenter(datapath = datapath)
+    p.run()
 
 @run.command("cli")
 def cli() -> None:

@@ -21,41 +21,51 @@ class IPresenter:
         pass
 
     @abstractmethod
-    def generate(self):
+    def save(self):
         pass
 
-    @abstractmethod
-    def save(self):
+    @abstractmethod 
+    def run():
         pass
 
 
 class Presenter(IPresenter):
-    def __init__(self, size: int = 15, datapath: str = "world.json") -> None:
+    def __init__(self, datapath: str, size: int = 15) -> None:
         self.dataPath = datapath
         self._view: View = View(self)
+        
         self._model: Model = Model(size = size)
         try:
             self._model.load(self.dataPath)
         except FileNotFoundError:
             print("Wrong datapath")
             raise SystemExit
-        self._view.run()
     
     def addObject(self, *args) -> None:
         self._model.addObject(*args)
+        self._view.Map = self.__getMap()
 
     def step(self) -> None:
         self._model.makeStep()
+        self._view.Map = self.__getMap()
 
-    def getMap(self) -> list:
+    def __getMap(self) -> list:
         return self._model.getMap()
     
     def generate(self)  -> None:
         self._model.generate()
+        self._view.Map = self.__getMap()
 
     def save(self):
         self._model.save(self.dataPath)
+
+    def run(self):
+        self._view.Map = self.__getMap()
+        self._view.run()
+        
     
 
 if __name__ == "__main__":
-    p = Presenter()
+    datapath = "world.json"
+    p = Presenter(datapath = datapath)
+    p.run()
